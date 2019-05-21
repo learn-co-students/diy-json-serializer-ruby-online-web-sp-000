@@ -13,4 +13,13 @@
 class Post < ActiveRecord::Base
   belongs_to :author
 
+  def name=(name)
+    self.author = Author.find_or_create_by(name: name)
+  end
+
+  def name
+    if self.author
+      self.author.name
+    end
+  end
 end
