@@ -20,6 +20,11 @@ class PostsController < ApplicationController
 
   def edit
   end
+  
+  def body
+    post = Post.find(params[:id])
+    render json: PostSerializer.serialize(post)
+  end
 
   def update
     @post.update(post_params)
@@ -40,5 +45,10 @@ private
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
     params.require(:post).permit(:title, :description)
+  end
+  
+  def post_data
+    post = Post.find(params[:id])
+    render json: PostSerializer.serialize(post)
   end
 end
