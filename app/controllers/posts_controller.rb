@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    @post = Post.find(params[:id])
   end
 
   def new
@@ -26,9 +27,14 @@ class PostsController < ApplicationController
     redirect_to post_path(@post)
   end
 
+  def body
+    post = Post.find(params[:id])
+    render json: PostSerializer.serialize(post)
+  end
+
   def post_data
     post = Post.find(params[:id])
-    render plain: post.description
+    render json: PostSerializer.serialize(post)
   end
 
 private
