@@ -1,14 +1,25 @@
-Post.destroy_all
-Author.destroy_all
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+#
+# Examples:
+#
+#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+#   Mayor.create(name: 'Emanuel', city: cities.first)
+products = ["tv", "vcr", "macbook", "macbook air", "mouse", "chair", "desk", "lamp", "water bottle"]
 
-author1 = Author.create(name: "Stephen King")
-author2 = Author.create(name: "Ariana Huffington")
-author3 = Author.create(name: "Horse Ebooks")
+10.times do
+  products = ["tv", "vcr", "macbook", "macbook air", "mouse", "chair", "desk", "lamp", "water bottle"]
+  Product.create(:name => products.sample, :price => Faker::Number.between(1,1500), :inventory => Faker::Number.digit, :description => Faker::Lorem.sentences.sample)
+end
 
-post1 = "This is a blog post by Stephen King. It will probably be a movie soon."
-post2 = "I founded an empire but I can still blog on this lesson for funzies."
-post3 = "Last night I dreamt we simply need to realize to be so competitive."
+5.times do
+  Customer.create(:name => Faker::Name.name)
+end
 
-Post.create(title: "A Blog Post By Stephen King", description: post1, author: author1)
-Post.create(title: "I'm doing Great", description: post2, author: author2)
-Post.create(title: "Links Click Links", description: post3, author: author3)
+5.times do
+  Invoice.create
+end
+10.times do
+  order = Order.create(:customer_id => Customer.all.collect(&:id).sample, :invoice_id => Invoice.all.collect(&:id).sample)
+  order.products << Product.find(Product.all.collect(&:id).sample)
+end
